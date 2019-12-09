@@ -1,0 +1,100 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "IHMfour.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+	 voltage=2;
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::BtnTempClick(TObject *Sender)
+{
+switch(ListTemp->Text.ToInt())
+{
+	 case 0:
+	 cmd->Ecriture(0);
+	 break;
+
+	 case 25:
+	 cmd->Ecriture(2.5);
+	 break;
+
+	 case 50:
+	 cmd->Ecriture(5);
+	 break;
+
+	 case 75:
+	 cmd->Ecriture(7.5);
+	 break;
+
+	 case 100:
+	 cmd->Ecriture(10);
+     break;
+	 }
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Timer1Timer(TObject *Sender)
+{
+temp=cmd->Lecture();
+LblTemp->Caption=temp;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnInitisialisationClick(TObject *Sender)
+{
+cmd = new four();
+Timer1->Enabled=true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Timer2Timer(TObject *Sender)
+{
+	temp=cmd->Lecture();
+
+
+
+	cmd->Ecriture(voltage);
+
+	if(temp-2>tempcommande)
+	{
+		voltage=0;
+	}
+	if(temp<tempcommande)
+	{
+		voltage+=0.2;
+	}
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnStartClick(TObject *Sender)
+{
+tempcommande=EdtTemp->Text.ToInt();
+
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::BtnArretClick(TObject *Sender)
+{
+cmd->Ecriture(0);
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
+
